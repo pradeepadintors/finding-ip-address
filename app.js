@@ -10,8 +10,7 @@ var usersRouter = require('./routes/users');
 
 var app = express();
 
-
-app.set('trust proxy', 1);
+app.set('trust proxy', true); // Enable trust for proxy headers
 app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
