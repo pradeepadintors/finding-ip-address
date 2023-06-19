@@ -21,33 +21,25 @@ router.get('/ip_add', async(req, res) => {
   // Extract the first private IP address from the list
   const privateIp =
     ipAddress && ipAddress.includes(',') ? ipAddress.split(',')[0] : ipAddress;
-
-  res.json({ ipAddress: privateIp });
-    // dns.reverse(ipAddress, (err, hostnames) => {
-    //   if (err) {
-    //     console.error('Error retrieving hostname:', err);
-    //     return;
-    //   }
-    //   if (hostnames.length > 0) {
-    //     console.log("entered")
-    //     const hostname = hostnames[0];
-    //     res.send({
-    //       ip_address: Data.data.ip,
-    //       country_name: Data.data.country_name,
-    //       country_Code: Data.data.country_code,
-    //       region:Data.data.region,
-    //       deviceName: hostname
-    //     });
-    //   } else {
-    //     res.send({
-    //       ip_address: ipAddress,
-    //       country_name: Data.data.country_name,
-    //       country_Code: Data.data.country_code,
-    //       region:Data.data.region,
-    //       deviceName: "unknown"
-    //     });
-    //   }
-    // });
+    dns.reverse(ipAddress, (err, hostnames) => {
+      if (err) {
+        console.error('Error retrieving hostname:', err);
+        return;
+      }
+      if (hostnames.length > 0) {
+        console.log("entered")
+        const hostname = hostnames[0];
+        res.send({
+          ip_address:privateIp,
+          deviceName: hostname
+        });
+      } else {
+        res.send({
+          ip_address:privateIp,
+          deviceName: "unknown"
+        });
+      }
+    });
 });
 
 
